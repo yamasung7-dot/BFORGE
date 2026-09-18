@@ -1,0 +1,7 @@
+{
+  "id": "bforge",
+  "title": "BFORGE",
+  "description": "Blender-inspired viewport enhancement foundation for Blockbench",
+  "version": "0.0.1",
+  "min_version": "4.8.0"
+}
