@@ -1,9 +1,17 @@
 let BFORGE;
 
+function bforgeInspectViewport() {
+	const state = {
+		canvas: typeof Canvas !== 'undefined',
+		three: typeof THREE !== 'undefined'
+	};
+
+	console.log('[BFORGE] Viewport inspection:', state);
+	return state;
+}
+
 function bforgeRefreshViewport() {
-	// Safe placeholder hook.
-	// Actual viewport enhancement will be added after confirming Blockbench APIs.
-	if (typeof Canvas !== 'undefined' && Canvas.updateView) {
+	if (typeof Canvas !== 'undefined' && typeof Canvas.updateView === 'function') {
 		Canvas.updateView();
 	}
 }
@@ -13,15 +21,15 @@ Plugin.register('bforge', {
 	author: 'yamasung7-dot',
 	icon: 'icon.png',
 	description: 'Blender-inspired viewport enhancement foundation for Blockbench',
-	version: '0.0.2',
+	version: '0.0.3',
 	variant: 'both',
 	min_version: '4.8.0',
 
 	onload() {
 		BFORGE = {
 			enabled: true,
-			version: '0.0.2',
-			refresh: bforgeRefreshViewport
+			version: '0.0.3',
+			viewport: bforgeInspectViewport()
 		};
 
 		console.log('[BFORGE] Core loaded');
@@ -29,11 +37,7 @@ Plugin.register('bforge', {
 	},
 
 	onunload() {
-		if (BFORGE) {
-			BFORGE.enabled = false;
-			BFORGE = undefined;
-		}
-
+		BFORGE = undefined;
 		console.log('[BFORGE] Core unloaded');
 	}
 });
