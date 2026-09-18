@@ -8,15 +8,31 @@ function bforgeInspectViewport() {
 	};
 }
 
+function bforgeProbeRendering() {
+	const info = {
+		materials: false,
+		meshes: false,
+		lighting: false
+	};
+
+	if (typeof THREE !== 'undefined') {
+		info.materials = typeof THREE.MeshStandardMaterial !== 'undefined';
+		info.meshes = typeof THREE.Mesh !== 'undefined';
+		info.lighting = typeof THREE.Light !== 'undefined';
+	}
+
+	console.log('[BFORGE] Rendering capabilities:', info);
+	return info;
+}
+
 function bforgeApplyAppearanceLayer() {
-	// Safe first-pass hook.
-	// Real shading/material changes will be added after confirming
-	// the exposed Blockbench rendering API.
+	BFORGE.rendering = bforgeProbeRendering();
+
 	if (typeof Canvas !== 'undefined' && typeof Canvas.updateView === 'function') {
 		Canvas.updateView();
 	}
 
-	console.log('[BFORGE] Appearance layer active');
+	console.log('[BFORGE] Appearance layer ready');
 }
 
 Plugin.register('bforge', {
@@ -24,15 +40,16 @@ Plugin.register('bforge', {
 	author: 'yamasung7-dot',
 	icon: 'icon.png',
 	description: 'Blender-inspired viewport enhancement foundation for Blockbench',
-	version: '0.0.4',
+	version: '0.0.5',
 	variant: 'both',
 	min_version: '4.8.0',
 
 	onload() {
 		BFORGE = {
 			enabled: true,
-			version: '0.0.4',
-			viewport: bforgeInspectViewport()
+			version: '0.0.5',
+			viewport: bforgeInspectViewport(),
+			rendering: {}
 		};
 
 		console.log('[BFORGE] Core loaded', BFORGE.viewport);
