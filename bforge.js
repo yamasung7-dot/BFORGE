@@ -28,9 +28,13 @@ function bforgeAppearanceExperiment() {
 	const capabilities = bforgeProbeRendering();
 
 	BFORGE.rendering = capabilities;
+	BFORGE.state = {
+		lastRefresh: Date.now(),
+		modifiedScene: false,
+		modifiedMaterials: false,
+		modifiedMeshes: false
+	};
 
-	// First experiment only refreshes the viewport.
-	// No materials or meshes are modified yet.
 	if (typeof Canvas !== 'undefined' && typeof Canvas.updateView === 'function') {
 		Canvas.updateView();
 	}
@@ -43,16 +47,17 @@ Plugin.register('bforge', {
 	author: 'yamasung7-dot',
 	icon: 'icon.png',
 	description: 'Blender-inspired viewport enhancement foundation for Blockbench',
-	version: '0.0.7',
+	version: '0.0.8',
 	variant: 'both',
 	min_version: '4.8.0',
 
 	onload() {
 		BFORGE = {
 			enabled: true,
-			version: '0.0.7',
+			version: '0.0.8',
 			viewport: bforgeInspectViewport(),
-			rendering: {}
+			rendering: {},
+			state: {}
 		};
 
 		console.log('[BFORGE] Core loaded', BFORGE.viewport);
