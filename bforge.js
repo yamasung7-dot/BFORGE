@@ -28,11 +28,14 @@ function bforgeProbeRendering() {
 function bforgeApplyAppearanceLayer() {
 	BFORGE.rendering = bforgeProbeRendering();
 
+	// Safe appearance test stage.
+	// Actual material/shading changes will only be added after confirming
+	// the correct Blockbench rendering hooks.
 	if (typeof Canvas !== 'undefined' && typeof Canvas.updateView === 'function') {
 		Canvas.updateView();
 	}
 
-	console.log('[BFORGE] Appearance layer ready');
+	console.log('[BFORGE] Appearance layer active');
 }
 
 Plugin.register('bforge', {
@@ -40,14 +43,14 @@ Plugin.register('bforge', {
 	author: 'yamasung7-dot',
 	icon: 'icon.png',
 	description: 'Blender-inspired viewport enhancement foundation for Blockbench',
-	version: '0.0.5',
+	version: '0.0.6',
 	variant: 'both',
 	min_version: '4.8.0',
 
 	onload() {
 		BFORGE = {
 			enabled: true,
-			version: '0.0.5',
+			version: '0.0.6',
 			viewport: bforgeInspectViewport(),
 			rendering: {}
 		};
